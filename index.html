@@ -1175,15 +1175,28 @@ document.getElementById('networkSwitch').addEventListener('click', e => {
 });
 
 // ===== DONUT CHART =====
-const tokenData = [
-  { label: 'Liquidity', pct: 50, color: '#00a77b' },
-  { label: 'Team', pct: 15, color: '#008f69' },
-  { label: 'Marketing', pct: 10, color: '#00d4a0' },
-  { label: 'Reserves', pct: 10, color: '#0e7a5e' },
-  { label: 'Development', pct: 5, color: '#004d3a' },
-  { label: 'Staking Rewards', pct: 5, color: '#00c48c' },
-  { label: 'Airdrop', pct: 5, color: '#007a5a' }
+
+// общее количество токенов (измени под свой проект)
+const TOTAL_SUPPLY = 1000000;
+
+const tokenDataRaw = [
+  { label: 'Liquidity', tokens: 500000, color: '#00a77b' },
+  { label: 'Team', tokens: 150000, color: '#008f69' },
+  { label: 'Marketing', tokens: 100000, color: '#00d4a0' },
+  { label: 'Reserves', tokens: 100000, color: '#0e7a5e' },
+  { label: 'Development', tokens: 50000, color: '#004d3a' },
+  { label: 'Staking Rewards', tokens: 50000, color: '#00c48c' },
+  { label: 'Airdrop', tokens: 50000, color: '#007a5a' } // ← 50k
 ];
+
+// автоматически считаем проценты
+const tokenData = tokenDataRaw.map(item => ({
+  ...item,
+  pct: (item.tokens / TOTAL_SUPPLY) * 100,
+  display: item.tokens.toLocaleString() // "50,000"
+}));
+
+// теперь используешь tokenData в диаграмме
 let hoveredSegment = -1;
 function drawDonut() {
   const svg = document.getElementById('donutChart');
