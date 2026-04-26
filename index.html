@@ -1175,45 +1175,15 @@ document.getElementById('networkSwitch').addEventListener('click', e => {
 });
 
 // ===== DONUT CHART =====
-
-const TOTAL_SUPPLY = 1_000_000_000;
-
-// реальные данные
-const tokenDataRaw = [
-  { label: 'Liquidity', tokens: 500_000_000, color: '#00a77b' },
-  { label: 'Team', tokens: 150_000_000, color: '#008f69' },
-  { label: 'Marketing', tokens: 100_000_000, color: '#00d4a0' },
-  { label: 'Reserves', tokens: 100_000_000, color: '#0e7a5e' },
-  { label: 'Development', tokens: 50_000_000, color: '#004d3a' },
-  { label: 'Staking Rewards', tokens: 49_950_000, color: '#00c48c' },
-  { label: 'Airdrop', tokens: 50_000, color: '#007a5a' } // ← реальные 50k
+const tokenData = [
+  { label: 'Liquidity', pct: 50, color: '#00a77b' },
+  { label: 'Team', pct: 15, color: '#008f69' },
+  { label: 'Marketing', pct: 10, color: '#00d4a0' },
+  { label: 'Reserves', pct: 10, color: '#0e7a5e' },
+  { label: 'Development', pct: 5.995, color: '#004d3a' },
+  { label: 'Staking Rewards', pct: 5, color: '#00c48c' },
+  { label: 'Airdrop', pct: 0.005, color: '#007a5a' }
 ];
-
-// минимальный размер сектора (чтобы было видно)
-const MIN_VISIBLE_PERCENT = 2;
-
-// считаем проценты
-let tokenData = tokenDataRaw.map(item => ({
-  ...item,
-  realPct: (item.tokens / TOTAL_SUPPLY) * 100
-}));
-
-// применяем "визуальный минимум"
-let adjusted = tokenData.map(item => ({
-  ...item,
-  pct: item.realPct < MIN_VISIBLE_PERCENT ? MIN_VISIBLE_PERCENT : item.realPct
-}));
-
-// нормализуем обратно к 100%
-const totalAdjusted = adjusted.reduce((sum, i) => sum + i.pct, 0);
-
-tokenData = adjusted.map(item => ({
-  ...item,
-  pct: (item.pct / totalAdjusted) * 100,
-  display: item.tokens.toLocaleString()
-}));
-
-// используешь tokenData в чарте
 let hoveredSegment = -1;
 function drawDonut() {
   const svg = document.getElementById('donutChart');
