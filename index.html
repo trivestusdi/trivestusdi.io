@@ -1176,13 +1176,19 @@ document.getElementById('networkSwitch').addEventListener('click', e => {
 
 // ===== DONUT CHART =====
 const tokenData = [
-  { label: 'Liquidity', pct: 50, color: '#00a77b' },
-  { label: 'Team', pct: 15, color: '#008f69' },
-  { label: 'Marketing', pct: 10, color: '#00d4a0' },
-  { label: 'Reserves', pct: 10, color: '#0e7a5e' },
+  { label: 'Liquidity', pct: 48, color: '#00a77b' },
+  { label: 'Team', pct: 14, color: '#008f69' },
+  { label: 'Marketing', pct: 9, color: '#00d4a0' },
+  { label: 'Reserves', pct: 9, color: '#0e7a5e' },
   { label: 'Development', pct: 5, color: '#004d3a' },
   { label: 'Staking Rewards', pct: 5, color: '#00c48c' },
-  { label: 'Airdrop', pct: 5, color: '#007a5a' }
+
+  { label: 'Airdrop', pct: 1, color: '#007a5a' },
+
+  { label: 'Advisors', pct: 1, color: '#009e73' },
+  { label: 'Partnerships', pct: 1, color: '#00b383' },
+  { label: 'Ecosystem', pct: 1, color: '#007f5f' },
+  { label: 'Community', pct: 1, color: '#00a86b' }
 ];
 let hoveredSegment = -1;
 function drawDonut() {
