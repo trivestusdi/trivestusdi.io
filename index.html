@@ -1176,27 +1176,44 @@ document.getElementById('networkSwitch').addEventListener('click', e => {
 
 // ===== DONUT CHART =====
 
-// общее количество токенов (измени под свой проект)
-const TOTAL_SUPPLY = 1000000;
+const TOTAL_SUPPLY = 1_000_000_000;
 
+// реальные данные
 const tokenDataRaw = [
-  { label: 'Liquidity', tokens: 500000, color: '#00a77b' },
-  { label: 'Team', tokens: 150000, color: '#008f69' },
-  { label: 'Marketing', tokens: 100000, color: '#00d4a0' },
-  { label: 'Reserves', tokens: 100000, color: '#0e7a5e' },
-  { label: 'Development', tokens: 50000, color: '#004d3a' },
-  { label: 'Staking Rewards', tokens: 50000, color: '#00c48c' },
-  { label: 'Airdrop', tokens: 50000, color: '#007a5a' } // ← 50k
+  { label: 'Liquidity', tokens: 500_000_000, color: '#00a77b' },
+  { label: 'Team', tokens: 150_000_000, color: '#008f69' },
+  { label: 'Marketing', tokens: 100_000_000, color: '#00d4a0' },
+  { label: 'Reserves', tokens: 100_000_000, color: '#0e7a5e' },
+  { label: 'Development', tokens: 50_000_000, color: '#004d3a' },
+  { label: 'Staking Rewards', tokens: 49_950_000, color: '#00c48c' },
+  { label: 'Airdrop', tokens: 50_000, color: '#007a5a' } // ← реальные 50k
 ];
 
-// автоматически считаем проценты
-const tokenData = tokenDataRaw.map(item => ({
+// минимальный размер сектора (чтобы было видно)
+const MIN_VISIBLE_PERCENT = 2;
+
+// считаем проценты
+let tokenData = tokenDataRaw.map(item => ({
   ...item,
-  pct: (item.tokens / TOTAL_SUPPLY) * 100,
-  display: item.tokens.toLocaleString() // "50,000"
+  realPct: (item.tokens / TOTAL_SUPPLY) * 100
 }));
 
-// теперь используешь tokenData в диаграмме
+// применяем "визуальный минимум"
+let adjusted = tokenData.map(item => ({
+  ...item,
+  pct: item.realPct < MIN_VISIBLE_PERCENT ? MIN_VISIBLE_PERCENT : item.realPct
+}));
+
+// нормализуем обратно к 100%
+const totalAdjusted = adjusted.reduce((sum, i) => sum + i.pct, 0);
+
+tokenData = adjusted.map(item => ({
+  ...item,
+  pct: (item.pct / totalAdjusted) * 100,
+  display: item.tokens.toLocaleString()
+}));
+
+// используешь tokenData в чарте
 let hoveredSegment = -1;
 function drawDonut() {
   const svg = document.getElementById('donutChart');
