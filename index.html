@@ -559,15 +559,47 @@ document.addEventListener("click", function(e) {
 
     <div class="grid sm:grid-cols-2 gap-4">
       
-      <!-- Card -->
-      <div class="glass rounded-2xl p-6 text-center opacity-60">
-        <i data-lucide="credit-card" class="w-10 h-10 text-txt/40 mx-auto mb-3"></i>
-        <h3 class="text-white font-semibold mb-1" data-i18n="htb_card">Buy with Card</h3>
-        <span class="text-xs text-accent bg-accent/10 px-2 py-0.5 rounded-full" data-i18n="htb_soon">
-          Coming Soon
-        </span>
-      </div>
+     <!-- Buy with Card / Apple Pay -->
+<a 
+  href="https://tokpie.io/blog/how-to-trade-on-tokpie-ultimate-guide/#How_to_buy_cryptocurrency_with_a_Bank_Card"
+  target="_blank"
+  rel="noopener noreferrer"
+  class="glass rounded-2xl p-6 text-center block hover:scale-105 transition-all duration-300 group"
+>
+  <div class="flex items-center justify-center gap-3 mb-4">
+    
+    <!-- Bank Card Logo -->
+    <img 
+      src="https://i.ibb.co/JpB3CJ0/Bank-card-logo.png"
+      alt="Bank Card"
+      class="h-10 object-contain"
+    />
 
+    <!-- Apple Pay Logo -->
+    <img 
+      src="https://i.ibb.co/j4krYcY/Apple-Pay-logo.png"
+      alt="Apple Pay"
+      class="h-8 object-contain"
+    />
+  </div>
+
+  <h3 
+    class="text-white font-semibold mb-2 text-lg group-hover:text-accent transition-colors"
+    data-i18n="htb_card"
+  >
+    Buy with Card / Apple Pay
+  </h3>
+
+  <p class="text-sm text-txt/70 mb-3">
+    Buy tokens instantly using your bank card or Apple Pay
+  </p>
+
+  <span 
+    class="inline-flex items-center justify-center text-sm font-medium text-accent bg-accent/10 px-4 py-1.5 rounded-full border border-accent/20"
+  >
+    Buy Now
+  </span>
+</a>
       <!-- Crypto -->
       <div class="glass rounded-2xl p-6 text-center hover:border-primary/30 transition">
         
