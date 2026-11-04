@@ -103,6 +103,7 @@ svg.lucide{transition:transform .3s,filter .3s}
 @keyframes countUp{from{opacity:0;transform:translateY(10px)}}
 @keyframes flash{0%{background:rgba(0,167,123,.28)}100%{background:transparent}}
 .act{animation:countUp .5s ease,flash 1.8s ease}
+.live-ok::after{content:" ● live";color:#00d4a0;font-size:9px;letter-spacing:0;text-transform:none}
 .rm-line{transform-origin:left;transform:scaleX(0);transition:transform 2.6s cubic-bezier(.6,0,.2,1)}
 .in .rm-line{transform:scaleX(1)}
 .dot{animation:dotPulse 2.4s ease-out infinite}
@@ -110,6 +111,38 @@ svg.lucide{transition:transform .3s,filter .3s}
 input[type=range].sl{-webkit-appearance:none;appearance:none;width:100%;height:10px;border-radius:8px;background:rgba(255,255,255,.06);outline:none;box-shadow:inset 0 2px 8px rgba(0,0,0,.4)}
 input[type=range].sl::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#00d4a0,#00a77b);cursor:grab;border:2px solid rgba(255,255,255,.25);box-shadow:0 0 0 7px rgba(0,167,123,.16),0 8px 22px rgba(0,167,123,.4)}
 input[type=range].sl::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#00d4a0,#00a77b);cursor:grab;border:2px solid rgba(255,255,255,.25);box-shadow:0 0 0 7px rgba(0,167,123,.16)}
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes ang{to{--ang:360deg}}
+.swbox{padding:1px;border-radius:28px;background:conic-gradient(from var(--ang),rgba(0,212,160,0),#00d4a0 14%,rgba(0,212,160,0) 32%,rgba(247,225,215,.55) 58%,rgba(0,212,160,0) 78%);animation:ang 7s linear infinite,swIn .45s cubic-bezier(.2,.8,.2,1);scrollbar-width:none;box-shadow:0 30px 120px rgba(0,167,123,.22)}
+.swbox::-webkit-scrollbar{display:none}
+@keyframes swIn{from{opacity:0;transform:translateY(24px) scale(.96)}}
+.swcard{background:linear-gradient(160deg,rgba(15,23,42,.97),rgba(2,6,23,.99));border-radius:27px;position:relative;overflow:hidden}
+.swglow{position:absolute;top:-90px;left:50%;width:360px;height:200px;transform:translateX(-50%);background:rgba(0,167,123,.32);filter:blur(80px);border-radius:50%;pointer-events:none}
+.swib{width:34px;height:34px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;color:rgba(220,220,220,.6);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);transition:.2s}
+.swib:hover{color:#00d4a0;border-color:rgba(0,212,160,.4);background:rgba(0,167,123,.1)}
+.swfield{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:16px 18px;transition:border-color .25s,box-shadow .25s}
+.swfield:focus-within{border-color:rgba(0,212,160,.45);box-shadow:0 0 0 4px rgba(0,167,123,.08)}
+.swin{width:100%;min-width:0;background:transparent;outline:none;border:0;color:#fff;font-size:30px;font-weight:600;font-family:'Sora',sans-serif;padding:0}
+.swin::placeholder{color:rgba(220,220,220,.2)}
+.tokbtn{display:flex;align-items:center;gap:8px;padding:5px 12px 5px 5px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.09);color:#fff;font-weight:600;transition:.2s;white-space:nowrap;flex-shrink:0}
+.tokbtn:hover{background:rgba(0,167,123,.16);border-color:rgba(0,212,160,.45)}
+.tkico{border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0}
+.swgo{width:100%;padding:16px;border-radius:18px;font-weight:700;font-size:16px;color:#fff;background:linear-gradient(135deg,#00c28f,#008f69);transition:.25s;position:relative;overflow:hidden;font-family:'Sora',sans-serif}
+.swgo:hover:not(:disabled){box-shadow:0 0 44px rgba(0,212,160,.5);translate:0 -1px}
+.swgo:disabled{background:rgba(255,255,255,.06);color:rgba(220,220,220,.4);cursor:not-allowed}
+.swflip{width:40px;height:40px;border-radius:14px;background:#020617;border:4px solid #0b1220;color:#00d4a0;display:flex;align-items:center;justify-content:center;transition:.35s;margin:-18px auto;position:relative;z-index:5}
+.swflip:hover{background:#06251d;transform:rotate(180deg)}
+.swsel{background:linear-gradient(160deg,rgba(15,23,42,.995),rgba(2,6,23,.995));animation:selIn .25s ease}
+@keyframes selIn{from{opacity:0;transform:translateY(18px)}}
+.tkrow{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:16px;cursor:pointer;transition:.2s}
+.tkrow:hover{background:rgba(0,167,123,.1)}
+.chipt{display:inline-flex;align-items:center;gap:6px;padding:5px 12px 5px 5px;border-radius:999px;border:1px solid rgba(255,255,255,.1);font-size:13px;color:#fff;transition:.2s}
+.chipt:hover{border-color:rgba(0,212,160,.5);background:rgba(0,167,123,.1)}
+.slb{padding:6px 12px;border-radius:10px;font-size:12px;border:1px solid rgba(255,255,255,.1);color:rgba(220,220,220,.7);transition:.2s}
+.slb.on{background:rgba(0,167,123,.2);color:#00d4a0;border-color:rgba(0,212,160,.5)}
+#swList{scrollbar-width:none}#swList::-webkit-scrollbar{display:none}
+.sdet{font-size:12px;color:rgba(220,220,220,.45)}.sdet b{color:rgba(220,220,220,.85);font-weight:500}
+@keyframes spin2{to{transform:rotate(360deg)}}.spin2{animation:spin2 .7s linear}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv,.w,.hs{opacity:1!important;translate:none!important;filter:none!important}#donut{opacity:1}}
 </style>
 </head>
@@ -123,17 +156,17 @@ input[type=range].sl::-moz-range-thumb{width:26px;height:26px;border-radius:50%;
 
 <header id="hdr" class="fixed top-0 left-0 w-full z-50">
 <div class="border-b border-white/5 bg-black/30 overflow-hidden h-8 flex items-center text-[11px] font-mono text-txt/50">
-<div class="tick flex whitespace-nowrap"><span class="pr-12">USDI/USD <b class="text-mint">$1.0000</b></span><span class="pr-12">24H VOL <b class="text-white">$12.4M</b></span><span class="pr-12">MARKET CAP <b class="text-white">$1.0B</b></span><span class="pr-12">RESERVES <b class="text-mint">102%</b></span><span class="pr-12">HOLDERS <b class="text-white">84,521</b></span><span class="pr-12">NETWORKS <b class="text-white">BEP-20</b></span><span class="pr-12">USDI/USD <b class="text-mint">$1.0000</b></span><span class="pr-12">24H VOL <b class="text-white">$12.4M</b></span><span class="pr-12">MARKET CAP <b class="text-white">$1.0B</b></span><span class="pr-12">RESERVES <b class="text-mint">102%</b></span><span class="pr-12">HOLDERS <b class="text-white">84,521</b></span><span class="pr-12">NETWORKS <b class="text-white">BEP-20</b></span><span class="pr-12">USDI/USD <b class="text-mint">$1.0000</b></span><span class="pr-12">24H VOL <b class="text-white">$12.4M</b></span><span class="pr-12">MARKET CAP <b class="text-white">$1.0B</b></span><span class="pr-12">RESERVES <b class="text-mint">102%</b></span><span class="pr-12">HOLDERS <b class="text-white">84,521</b></span><span class="pr-12">NETWORKS <b class="text-white">BEP-20</b></span><span class="pr-12">USDI/USD <b class="text-mint">$1.0000</b></span><span class="pr-12">24H VOL <b class="text-white">$12.4M</b></span><span class="pr-12">MARKET CAP <b class="text-white">$1.0B</b></span><span class="pr-12">RESERVES <b class="text-mint">102%</b></span><span class="pr-12">HOLDERS <b class="text-white">84,521</b></span><span class="pr-12">NETWORKS <b class="text-white">BEP-20</b></span></div></div>
+<div class="tick flex whitespace-nowrap"><span class="pr-12">USDI/USD <b class="text-mint">$1.0000</b></span><span class="pr-12">24H VOL <b class="text-white">$12.4M</b></span><span class="pr-12">MARKET CAP <b class="text-white">$1.0B</b></span><span class="pr-12">RESERVES <b class="text-mint">102%</b></span><span class="pr-12">HOLDERS <b class="text-white live-holders">…</b></span><span class="pr-12">NETWORKS <b class="text-white">BEP-20</b></span><span class="pr-12">USDI/USD <b class="text-mint">$1.0000</b></span><span class="pr-12">24H VOL <b class="text-white">$12.4M</b></span><span class="pr-12">MARKET CAP <b class="text-white">$1.0B</b></span><span class="pr-12">RESERVES <b class="text-mint">102%</b></span><span class="pr-12">HOLDERS <b class="text-white live-holders">…</b></span><span class="pr-12">NETWORKS <b class="text-white">BEP-20</b></span><span class="pr-12">USDI/USD <b class="text-mint">$1.0000</b></span><span class="pr-12">24H VOL <b class="text-white">$12.4M</b></span><span class="pr-12">MARKET CAP <b class="text-white">$1.0B</b></span><span class="pr-12">RESERVES <b class="text-mint">102%</b></span><span class="pr-12">HOLDERS <b class="text-white live-holders">…</b></span><span class="pr-12">NETWORKS <b class="text-white">BEP-20</b></span><span class="pr-12">USDI/USD <b class="text-mint">$1.0000</b></span><span class="pr-12">24H VOL <b class="text-white">$12.4M</b></span><span class="pr-12">MARKET CAP <b class="text-white">$1.0B</b></span><span class="pr-12">RESERVES <b class="text-mint">102%</b></span><span class="pr-12">HOLDERS <b class="text-white live-holders">…</b></span><span class="pr-12">NETWORKS <b class="text-white">BEP-20</b></span></div></div>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
 <a href="#about" class="flex items-center gap-2 text-white font-bold text-lg head"><img src="https://blush-accurate-worm-317.mypinata.cloud/ipfs/bafkreigsxh2v7tcf6ggaskw3sgvet3nbajikxjqz7xt3rm4ld6ifmwy3dy" alt="USDI" class="w-8 h-8 rounded-full" onerror="this.style.background='#00a77b'"><span>Trivest <span class="text-primary">USDI</span></span></a>
 <nav class="hidden lg:flex items-center gap-7 text-sm text-txt/70">
-<a href="#benefits" class="hover:text-mint transition" data-i18n="nav_benefits">Benefits</a><a href="#chains" class="hover:text-mint transition" data-i18n="nav_chains">Network</a><a href="#tokenomics" class="hover:text-mint transition" data-i18n="nav_tokenomics">Tokenomics</a><a href="#calculator" class="hover:text-mint transition" data-i18n="nav_calculator">Earn</a><a href="#roadmap" class="hover:text-mint transition" data-i18n="nav_roadmap">Roadmap</a><a href="#community" class="hover:text-mint transition" data-i18n="nav_community">Community</a></nav>
+<a href="#benefits" class="hover:text-mint transition" data-i18n="nav_benefits">Benefits</a><a href="#chains" class="hover:text-mint transition" data-i18n="nav_chains">Network</a><a href="#tokenomics" class="hover:text-mint transition" data-i18n="nav_tokenomics">Tokenomics</a><a href="#calculator" class="hover:text-mint transition" data-i18n="nav_calculator">Earn</a><a href="#roadmap" class="hover:text-mint transition" data-i18n="nav_roadmap">Roadmap</a><a href="#community" class="hover:text-mint transition" data-i18n="nav_community">Community</a><button id="navSwap" class="hover:text-mint transition">Swap</button></nav>
 <div class="flex items-center gap-3"><button id="lang" class="text-xs font-mono text-txt/60 hover:text-mint transition px-2 py-1 rounded border border-white/10 hover:border-primary/40">EN</button>
 <button id="wbtn" class="btn-outline text-white text-sm font-medium px-3 sm:px-4 py-2 rounded-lg inline-flex items-center gap-2"><i data-lucide="wallet" class="w-4 h-4 text-mint"></i><span id="wbtnT" class="hidden sm:inline">Connect Wallet</span></button>
 <a href="#buy" class="hidden sm:inline-flex btn-primary text-sm font-semibold px-5 py-2 rounded-lg" data-i18n="nav_buy_btn">Buy USDI</a>
 <button id="mm" class="lg:hidden text-txt/70"><i data-lucide="menu" class="w-5 h-5"></i></button></div>
 </div>
-<div id="mobile" class="hidden lg:hidden bg-bg2/95 backdrop-blur border-t border-white/5"><div class="px-4 py-4 flex flex-col gap-3 text-sm text-txt/70"><a href="#benefits">Benefits</a><a href="#chains">Network</a><a href="#tokenomics">Tokenomics</a><a href="#calculator">Earn</a><a href="#buy">Buy</a><a href="#roadmap">Roadmap</a><a href="#community">Community</a></div></div>
+<div id="mobile" class="hidden lg:hidden bg-bg2/95 backdrop-blur border-t border-white/5"><div class="px-4 py-4 flex flex-col gap-3 text-sm text-txt/70"><a href="#benefits">Benefits</a><a href="#chains">Network</a><a href="#tokenomics">Tokenomics</a><a href="#calculator">Earn</a><a href="#buy">Buy</a><a href="#roadmap">Roadmap</a><a href="#community">Community</a><button id="navSwapM" class="text-left">Swap</button></div></div>
 </header>
 
 <main>
@@ -207,9 +240,9 @@ input[type=range].sl::-moz-range-thumb{width:26px;height:26px;border-radius:50%;
 </section>
 
 <section class="py-10 px-4 sm:px-6"><div class="max-w-7xl mx-auto glass rounded-3xl py-10 px-6 grid grid-cols-2 lg:grid-cols-4 gap-8 text-center rv">
-<div><div class="text-3xl sm:text-4xl font-extrabold text-white head counter" data-t="1000000000">0</div><div class="text-xs text-txt/40 mt-2 font-mono uppercase" data-i18n="stat_supply">Total Supply</div></div>
-<div><div class="text-3xl sm:text-4xl font-extrabold text-white head counter" data-t="84521">0</div><div class="text-xs text-txt/40 mt-2 font-mono uppercase" data-i18n="stat_holders">Holders</div></div>
-<div><div class="text-3xl sm:text-4xl font-extrabold text-white head counter" data-t="2450000">0</div><div class="text-xs text-txt/40 mt-2 font-mono uppercase" data-i18n="stat_tx">Transactions</div></div>
+<div><div class="text-3xl sm:text-4xl font-extrabold text-white head counter" data-t="1000000000" data-live="supply">0</div><div id="lblSup" class="text-xs text-txt/40 mt-2 font-mono uppercase" data-i18n="stat_supply">Total Supply</div></div>
+<div><div class="text-3xl sm:text-4xl font-extrabold text-white head counter" data-t="" data-live="holders">…</div><div id="lblHold" class="text-xs text-txt/40 mt-2 font-mono uppercase" data-i18n="stat_holders">Holders</div></div>
+<div><div class="text-3xl sm:text-4xl font-extrabold text-white head counter" data-t="" data-live="tx">…</div><div id="lblTx" class="text-xs text-txt/40 mt-2 font-mono uppercase" data-i18n="stat_tx">Transactions</div></div>
 <div><div class="text-3xl sm:text-4xl font-extrabold text-mint head counter" data-t="45200000" data-p="$">0</div><div class="text-xs text-txt/40 mt-2 font-mono uppercase" data-i18n="stat_liq">Liquidity</div></div>
 </div></section>
 
@@ -252,7 +285,7 @@ input[type=range].sl::-moz-range-thumb{width:26px;height:26px;border-radius:50%;
 <div class="flex items-center justify-center gap-3 mb-5"><img src="https://i.ibb.co/JpB3CJ0/Bank-card-logo.png" alt="Bank Card" class="h-10 object-contain"><img src="https://i.ibb.co/j4krYcY/Apple-Pay-logo.png" alt="Apple Pay" class="h-8 object-contain"></div>
 <h3 class="text-white font-semibold mb-2 text-xl head group-hover:text-accent transition-colors" data-i18n="htb_card">Buy with Card / Apple Pay</h3><p class="text-sm text-txt/70 mb-4">Buy tokens instantly using your bank card or Apple Pay</p>
 <span class="inline-flex text-sm font-medium text-accent bg-accent/10 px-5 py-1.5 rounded-full border border-accent/20">Buy Now</span></a>
-<div class="glass rounded-3xl p-8 text-center rv tilt"><img src="https://blush-accurate-worm-317.mypinata.cloud/ipfs/bafkreigsxh2v7tcf6ggaskw3sgvet3nbajikxjqz7xt3rm4ld6ifmwy3dy" alt="USDI" class="w-12 h-12 object-contain mx-auto mb-4 rounded-full"><h3 class="text-white font-semibold mb-4 text-xl head" data-i18n="htb_crypto">Buy with Crypto</h3><button class="btn-primary text-sm font-semibold px-7 py-2.5 rounded-xl" data-i18n="htb_buy_btn">Buy USDI</button></div>
+<div class="glass rounded-3xl p-8 text-center rv tilt"><img src="https://blush-accurate-worm-317.mypinata.cloud/ipfs/bafkreigsxh2v7tcf6ggaskw3sgvet3nbajikxjqz7xt3rm4ld6ifmwy3dy" alt="USDI" class="w-12 h-12 object-contain mx-auto mb-4 rounded-full"><h3 class="text-white font-semibold mb-4 text-xl head" data-i18n="htb_crypto">Buy with Crypto</h3><button id="buyCrypto" class="btn-primary text-sm font-semibold px-7 py-2.5 rounded-xl" data-i18n="htb_buy_btn">Buy USDI</button></div>
 </div>
 <div class="mt-14 text-center rv"><div class="text-xs text-txt/40 font-mono mb-5 uppercase" data-i18n="wallet_title">Supported Wallets</div>
 <div class="flex flex-wrap justify-center gap-3">
@@ -329,6 +362,38 @@ input[type=range].sl::-moz-range-thumb{width:26px;height:26px;border-radius:50%;
 </div>
 <p id="wmMsg" class="text-xs text-red-400 mt-3 min-h-[1rem]"></p>
 </div></div>
+<div id="sw" class="fixed inset-0 z-[10002] hidden items-center justify-center bg-black/75 backdrop-blur-md p-3 sm:p-4">
+<div class="swbox w-full max-w-[480px] max-h-[94vh] overflow-y-auto">
+<div class="swcard p-5 sm:p-6">
+<div class="swglow"></div>
+<div class="relative">
+<div class="flex items-center justify-between mb-5">
+<div><h3 class="text-white font-bold text-xl head">Swap</h3><div class="flex items-center gap-2 mt-1.5"><span class="inline-flex items-center gap-1.5 text-[11px] font-mono text-txt/50"><span class="w-1.5 h-1.5 rounded-full bg-mint"></span>BNB Smart Chain</span><span class="inline-flex items-center gap-1 text-[10px] font-mono text-accent bg-accent/10 border border-accent/20 rounded-full px-2 py-0.5">TEST MODE</span></div></div>
+<div class="flex items-center gap-1.5"><button id="swSet" class="swib" title="Settings"><i data-lucide="settings-2" class="w-4 h-4"></i></button><button id="swRef" class="swib" title="Refresh"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button><button id="swX" class="swib" title="Close"><i data-lucide="x" class="w-4 h-4"></i></button></div>
+</div>
+<div id="swSetP" class="hidden mb-4 swfield"><div class="text-xs text-txt/50 mb-2.5">Slippage tolerance</div><div class="flex flex-wrap items-center gap-2"><button class="slb" data-s="10">0.1%</button><button class="slb on" data-s="50">0.5%</button><button class="slb" data-s="100">1%</button><button class="slb" data-s="300">3%</button><div class="flex items-center gap-1 ml-auto"><input id="slC" inputmode="decimal" placeholder="Custom" class="w-20 bg-white/5 border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-primary/60"><span class="text-xs text-txt/40">%</span></div></div></div>
+<!-- ===== SWAP_SLOT_START: интерфейс обмена. Логика подключается через window.TrivestSwap (quote / execute) ===== -->
+<div id="swapSlot">
+<div class="swfield"><div class="flex justify-between items-center text-xs text-txt/45 mb-3"><span>You pay</span><span class="flex items-center gap-2">Balance: <b id="swFBal" class="text-txt/80 font-medium">—</b><button id="swHalf" class="text-mint hover:text-white font-semibold">50%</button><button id="swMax" class="text-mint hover:text-white font-semibold">MAX</button></span></div>
+<div class="flex items-center gap-3"><input id="swFrom" class="swin" inputmode="decimal" autocomplete="off" placeholder="0.0"><button id="swFromBtn" class="tokbtn"></button></div></div>
+<button id="swFlip" class="swflip" title="Switch"><i data-lucide="arrow-down-up" class="w-4 h-4"></i></button>
+<div class="swfield"><div class="flex justify-between items-center text-xs text-txt/45 mb-3"><span>You receive (estimated)</span><span>Balance: <b id="swTBal" class="text-txt/80 font-medium">—</b></span></div>
+<div class="flex items-center gap-3"><input id="swTo" class="swin" readonly placeholder="0.0"><button id="swToBtn" class="tokbtn"></button></div></div>
+<div id="swDet" class="hidden mt-3 px-1 space-y-1.5"><div class="flex justify-between sdet"><span>Rate</span><b id="dRate">—</b></div><div class="flex justify-between sdet"><span>Price impact</span><b id="dImp">—</b></div><div class="flex justify-between sdet"><span>Minimum received</span><b id="dMin">—</b></div><div class="flex justify-between sdet"><span>Route</span><b id="dRoute">—</b></div><div class="flex justify-between sdet"><span>Slippage</span><b id="dSlip">0.5%</b></div></div>
+<button id="swGo" class="swgo mt-4">Connect wallet</button>
+</div>
+<!-- ===== SWAP_SLOT_END ===== -->
+<p id="swMsg" class="text-xs mt-3 min-h-[1rem] text-txt/50 text-center"></p>
+<div class="text-center text-[10px] text-txt/30 font-mono mt-3">Routed via Uniswap V3 · BNB Smart Chain</div>
+</div>
+<div id="swSel" class="swsel hidden absolute inset-0 z-20 p-5 sm:p-6 flex flex-col">
+<div class="flex items-center justify-between mb-4"><h3 class="text-white font-bold text-lg head">Select a token</h3><button id="swSelX" class="swib"><i data-lucide="x" class="w-4 h-4"></i></button></div>
+<input id="swQ" placeholder="Search name or paste contract address" class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm text-white outline-none focus:border-primary/60 mb-3" autocomplete="off">
+<div id="swPop" class="flex flex-wrap gap-2 mb-3"></div>
+<div class="text-[11px] text-txt/35 font-mono mb-1 px-1">TOKENS</div>
+<div id="swList" class="flex-1 overflow-y-auto -mx-1 px-1"></div>
+</div>
+</div></div></div>
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const fine=matchMedia('(pointer:fine)').matches,reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -385,7 +450,7 @@ $$('.fq').forEach(b=>b.onclick=()=>{const c=b.nextElementSibling,o=c.classList.c
 $('#mm').onclick=()=>$('#mobile').classList.toggle('hidden');$$('#mobile a').forEach(a=>a.onclick=()=>$('#mobile').classList.add('hidden'));
 $('#copy').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText('0xD248e72413C6F9c8583eA67B290f2920914Fc101');$('#copyT').textContent='Copied';setTimeout(()=>$('#copyT').textContent='Copy',1600)};
 $$('[data-stg]').forEach(g=>[...g.children].forEach((c,i)=>c.style.setProperty('--d',i*.09+'s')));
-function cnt(el){const to=+el.dataset.t,p=el.dataset.p||'',s=performance.now();(function f(n){const q=Math.min((n-s)/2000,1);el.textContent=p+Math.floor((1-Math.pow(1-q,3))*to).toLocaleString();if(q<1)requestAnimationFrame(f)})(s)}
+function cnt(el){el._on=true;if(!el.dataset.t)return;const to=+el.dataset.t,from=el._v||0,p=el.dataset.p||'',s=performance.now();(function f(n){const q=Math.min((n-s)/2000,1);el.textContent=p+Math.floor(from+(1-Math.pow(1-q,3))*(to-from)).toLocaleString();if(q<1)requestAnimationFrame(f);else el._v=to})(s)}
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;io.unobserve(el);el.classList.add('in');setTimeout(()=>el.classList.add('done'),1500);
 el.querySelectorAll('.counter').forEach(cnt);if(el.querySelector('#donut'))$('#donut').classList.add('in');
 if(el.querySelector('.ring-fg')){const r=$('#ratio'),s=performance.now();(function f(n){const q=Math.min((n-s)/1800,1);r.textContent=Math.round(102*(1-Math.pow(1-q,3)))+'%';if(q<1)requestAnimationFrame(f)})(s)}}),{threshold:.12,rootMargin:'0px 0px -6% 0px'});
@@ -443,6 +508,169 @@ $('#wOut').onclick=out;$('#wRef').onclick=refresh;
 $('#wCopy').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(ACC);$('#wCopyT').textContent='Copied';setTimeout(()=>$('#wCopyT').textContent='Copy',1500)};
 $('#wAdd').onclick=async()=>{try{await P.request({method:'wallet_watchAsset',params:{type:'ERC20',options:{address:USDI,symbol:'USDI',decimals:DEC,image:LOGO}}})}catch(e){msg(e.message||'Could not add token')}};
 setTimeout(async()=>{try{const id=localStorage.getItem('wlt'),w=WL.find(x=>x.id===id),p=w&&prov(w);if(!p)return;const a=await p.request({method:'eth_accounts'});if(a&&a[0]){P=p;WW=w;ACC=a[0];bind();ui();refresh()}}catch(_){}},900);
+/* ===== LIVE ON-CHAIN DATA (holders, supply) ===== */
+/* Необязательно: ключи для резервных источников. deployBlock — блок создания контракта (для сканирования логов). */
+const CFG={ankrKey:'',bscscanKey:'',deployBlock:0};
+const RPCS=['https://bsc-dataseed.binance.org/','https://bsc-rpc.publicnode.com','https://bsc-dataseed1.defibit.io/'];
+async function rpc(method,params){let err;for(const u of RPCS){try{const r=await fetch(u,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method,params})}),j=await r.json();if(j.error){const er=new Error(j.error.message);er.rev=/revert/i.test(j.error.message);throw er}return j.result}catch(e){err=e;if(e.rev)throw e}}throw err}
+const TOPIC='0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
+async function hGoPlus(){const a=USDI.toLowerCase(),r=await fetch('https://api.gopluslabs.io/api/v1/token_security/56?contract_addresses='+a),j=await r.json(),x=j.result&&j.result[a],n=x&&parseInt(x.holder_count);if(!(n>=0))throw 0;return n}
+async function hBscScan(){if(!CFG.bscscanKey)throw 0;const r=await fetch('https://api.etherscan.io/v2/api?chainid=56&module=token&action=tokenholdercount&contractaddress='+USDI+'&apikey='+CFG.bscscanKey),j=await r.json(),n=parseInt(j.result);if(!(n>=0))throw 0;return n}
+async function hAnkr(){if(!CFG.ankrKey)throw 0;const r=await fetch('https://rpc.ankr.com/multichain/'+CFG.ankrKey,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'ankr_getTokenHoldersCount',params:{blockchain:'bsc',contractAddress:USDI}})}),j=await r.json(),n=parseInt(j.result&&j.result.latestHoldersCount);if(!(n>=0))throw 0;return n}
+async function scan(){if(!CFG.deployBlock)throw 0;const SK='usdi_scan_v2',Z='0x0000000000000000000000000000000000000000';let st={dep:CFG.deployBlock,from:CFG.deployBlock,n:0,bal:{}};
+try{const c=JSON.parse(localStorage.getItem(SK)||'null');if(c&&c.dep===CFG.deployBlock)st=c}catch(_){}
+const latest=parseInt(await rpc('eth_blockNumber',[]),16);let step=20000,s=st.from;
+while(s<=latest){const e=Math.min(s+step-1,latest);try{const logs=await rpc('eth_getLogs',[{address:USDI,topics:[TOPIC],fromBlock:'0x'+s.toString(16),toBlock:'0x'+e.toString(16)}]);
+for(const l of logs){if(l.topics.length<3)continue;st.n++;const f='0x'+l.topics[1].slice(26),t='0x'+l.topics[2].slice(26),v=BigInt(l.data);if(f!==Z)st.bal[f]=(BigInt(st.bal[f]||'0')-v).toString();if(t!==Z)st.bal[t]=(BigInt(st.bal[t]||'0')+v).toString()}s=e+1}catch(err){if(step>500)step=Math.floor(step/2);else throw err}}
+st.from=latest+1;try{if(Object.keys(st.bal).length<20000)localStorage.setItem(SK,JSON.stringify(st))}catch(_){}
+let n=0;for(const k in st.bal)if(BigInt(st.bal[k])>0n)n++;return{holders:n,transfers:st.n}}
+function setStat(el,v,lbl){el.dataset.t=String(v);if(el._on)cnt(el);if(lbl)lbl.classList.add('live-ok')}
+let liveBusy=false;
+async function live(){if(liveBusy)return;liveBusy=true;const hEl=$('[data-live=holders]'),sEl=$('[data-live=supply]'),tEl=$('[data-live=tx]');
+const setH=(n,nm)=>{setStat(hEl,n,$('#lblHold'));$$('.live-holders').forEach(e=>e.textContent=n.toLocaleString('en-US'));hEl.title='Source: '+nm};
+for(const [nm,fn] of [['GoPlus',hGoPlus],['BscScan',hBscScan],['Ankr',hAnkr]]){try{setH(await fn(),nm);break}catch(_){}}
+try{const[s,d]=await Promise.all([rpc('eth_call',[{to:USDI,data:'0x18160ddd'},'latest']),rpc('eth_call',[{to:USDI,data:'0x313ce567'},'latest'])]),dec=parseInt(d,16)||18;setStat(sEl,Number(BigInt(s)/10n**BigInt(dec)),$('#lblSup'));sEl.title='Source: BSC RPC (totalSupply)'}catch(_){}
+try{const r=await scan();setH(r.holders,'on-chain Transfer logs');setStat(tEl,r.transfers,$('#lblTx'));tEl.title='Source: on-chain Transfer events'}catch(_){}
+if(!hEl.dataset.t){hEl.textContent='—';$$('.live-holders').forEach(e=>e.textContent='—')}
+if(!tEl.dataset.t)tEl.textContent='—';
+liveBusy=false}
+live();setInterval(live,60000);
+/* ===== SWAP POPUP (каркас; логику исполнения подключаешь через window.TrivestSwap.execute) ===== */
+const WBNB='0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',UNI={factory:'0xdB1d10011AD0Ff90774D0C6Bb92e5C5c8b4461F7',quoter:'0x78D78E420Da98ad378D7799bE8f4AF69033EB077',router:'0xB971eF87ede563556b2ED4b1C0b0019111Dd85d2'};
+const TOK=[
+{symbol:'BNB',name:'BNB',native:true,decimals:18,color:'#F3BA2F'},
+{symbol:'USDI',name:'Trivest USDI',address:USDI,decimals:18,logo:LOGO,color:'#00a77b'},
+{symbol:'USDT',name:'Tether USD',address:'0x55d398326f99059fF775485246999027B3197955',decimals:18,color:'#26A17B'},
+{symbol:'USDC',name:'USD Coin',address:'0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d',decimals:18,color:'#2775CA'},
+{symbol:'BTCB',name:'Bitcoin BEP20',address:'0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c',decimals:18,color:'#F7931A'},
+{symbol:'ETH',name:'Ethereum Token',address:'0x2170Ed0880ac9A755fd29B2688956BD959F933F8',decimals:18,color:'#627EEA'},
+{symbol:'CAKE',name:'PancakeSwap Token',address:'0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82',decimals:18,color:'#D1884F'},
+{symbol:'WBNB',name:'Wrapped BNB',address:WBNB,decimals:18,color:'#F3BA2F'}];
+window.TrivestWallet={get provider(){return P},get account(){return ACC},chainId:CH,usdi:USDI};
+/* TS.quote({from,to,amount}) -> {out:string,rate?:string} (необязательно: по умолчанию котировки берутся из PancakeSwap V2)
+   TS.execute({from,to,fromToken,toToken,amount,minOut,slippageBps,route,router,account,provider,chainId}) -> {hash?:string} */
+const TS=window.TrivestSwap={tokens:TOK,router:UNI.router,quote:null,execute:null,open:openSw,close:closeSw};
+let custom=[],sf=TOK[2],st=TOK[1],slip=50,selSide=null;const swS={bad:false,bal:null,q:'idle',res:null};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const decOf=t=>t.symbol==='USDI'&&t.address===USDI?DEC:t.decimals;
+const swM=(t,bad)=>{$('#swMsg').textContent=t||'';$('#swMsg').className='text-xs mt-3 min-h-[1rem] text-center '+(bad?'text-red-400':'text-txt/50')};
+function fmtU(raw,dec,dp){const base=10n**BigInt(dec),fr=dec?(raw%base).toString().padStart(dec,'0').slice(0,dp).replace(/0+$/,''):'';return(raw/base).toLocaleString('en-US')+(fr?'.'+fr:'')}
+function unitsStr(raw,dec){const base=10n**BigInt(dec),fr=dec?(raw%base).toString().padStart(dec,'0').replace(/0+$/,''):'';return(raw/base).toString()+(fr?'.'+fr:'')}
+function parseU(s,d){const p=String(s).split('.'),i=(p[0]||'0').replace(/\D/g,'')||'0',f=(p[1]||'').replace(/\D/g,'').padEnd(d,'0').slice(0,d);return BigInt(i+f)}
+const h32=x=>BigInt(x).toString(16).padStart(64,'0'),a32=a=>a.slice(2).toLowerCase().padStart(64,'0');
+function icon(t,sz){sz=sz||28;return t.logo?`<img src="${t.logo}" alt="" class="tkico" style="width:${sz}px;height:${sz}px;background:#04120f;object-fit:contain;padding:2px">`:`<span class="tkico" style="width:${sz}px;height:${sz}px;background:${t.color};font-size:${Math.round(sz*.42)}px">${esc(t.symbol[0])}</span>`}
+function renderSwap(){const pill=t=>icon(t)+'<span>'+esc(t.symbol)+'</span><span class="text-txt/40 text-xs">▾</span>';$('#swFromBtn').innerHTML=pill(sf);$('#swToBtn').innerHTML=pill(st)}
+async function tokRaw(t){if(!P||!ACC)return null;try{if(t.native)return BigInt(await P.request({method:'eth_getBalance',params:[ACC,'latest']}));
+return BigInt(await P.request({method:'eth_call',params:[{to:t.address,data:'0x70a08231'+a32(ACC)},'latest']}))}catch(_){return null}}
+function btnState(){const b=$('#swGo'),amt=$('#swFrom').value;let t='Swap',dis=false;
+if(!ACC)t='Connect wallet';else if(swS.bad)t='Switch to BNB Smart Chain';
+else if(!amt||!(+amt>0)){t='Enter an amount';dis=true}
+else if(swS.q==='load'){t='Fetching best price…';dis=true}
+else if(swS.q==='none'){t='No liquidity for this pair';dis=true}
+else if(swS.bal!=null&&parseU(amt,decOf(sf))>swS.bal){t='Insufficient '+sf.symbol+' balance';dis=true}
+b.textContent=t;b.disabled=dis}
+async function swapUI(){renderSwap();swS.bad=false;if(P&&ACC){try{swS.bad=(await P.request({method:'eth_chainId'}))!==CH}catch(_){}}
+swS.bal=null;$('#swFBal').textContent='—';$('#swTBal').textContent='—';
+if(P&&ACC&&!swS.bad){const[a,b]=await Promise.all([tokRaw(sf),tokRaw(st)]);swS.bal=a;$('#swFBal').textContent=a==null?'—':fmtU(a,decOf(sf),4);$('#swTBal').textContent=b==null?'—':fmtU(b,decOf(st),4)}
+btnState()}
+const FEES=[100,500,3000,10000],USDT=TOK[2].address,USDC=TOK[3].address,poolCache={};
+async function poolFees(x,y){const k=[x,y].map(s=>s.toLowerCase()).sort().join('-'),c=poolCache[k];if(c&&Date.now()-c.t<120000)return c.v;
+const out=[];await Promise.all(FEES.map(async f=>{try{const r=await rpc('eth_call',[{to:UNI.factory,data:'0x1698ee82'+a32(x)+a32(y)+h32(f)},'latest']);if(BigInt(r)!==0n)out.push(f)}catch(_){}}));
+out.sort((p,q)=>p-q);poolCache[k]={t:Date.now(),v:out};return out}
+async function routesFor(a,b){const A=a.native?WBNB:a.address,B=b.native?WBNB:b.address,L=s=>s.toLowerCase();if(L(A)===L(B))return[{wrap:true,tokens:[A,B],fees:[]}];
+const mids=[WBNB,USDT,USDC].filter(m=>L(m)!==L(A)&&L(m)!==L(B));
+const[direct,...rest]=await Promise.all([poolFees(A,B),...mids.map(m=>Promise.all([poolFees(A,m),poolFees(m,B)]))]);
+const r=direct.map(f=>({tokens:[A,B],fees:[f]}));mids.forEach((m,i)=>{const[fa,fb]=rest[i];fa.forEach(f1=>fb.forEach(f2=>r.push({tokens:[A,m,B],fees:[f1,f2]})))});return r}
+function pathHex(rt){let s=rt.tokens[0].slice(2).toLowerCase();rt.fees.forEach((f,i)=>{s+=f.toString(16).padStart(6,'0')+rt.tokens[i+1].slice(2).toLowerCase()});return s}
+const padHex=h=>h+'0'.repeat((64-h.length%64)%64);
+async function quoteRoute(rt,ain){if(rt.wrap)return ain;let data;
+if(rt.fees.length===1)data='0xc6a5026a'+a32(rt.tokens[0])+a32(rt.tokens[1])+h32(ain)+h32(rt.fees[0])+h32(0);
+else{const p=pathHex(rt);data='0xcdca1753'+h32(64)+h32(ain)+h32(p.length/2)+padHex(p)}
+const r=await rpc('eth_call',[{to:UNI.quoter,data},'latest']);return BigInt('0x'+r.slice(2,66))}
+async function getQuote(a,b,amt){const ain=parseU(amt,decOf(a));if(ain<=0n)return null;let best=null;
+await Promise.all((await routesFor(a,b)).map(async rt=>{try{const out=await quoteRoute(rt,ain);if(out>0n&&(!best||out>best.out))best={out,route:rt}}catch(_){}}));
+if(!best)return null;
+try{const ref=ain/100n;if(ref>0n&&!best.route.wrap){const ro=await quoteRoute(best.route,ref);if(ro>0n){const r1=Number(best.out)/Number(ain),r0=Number(ro)/Number(ref);best.imp=Math.max(0,(1-r1/r0)*100)}}}catch(_){}
+return best}
+const symOf=a=>{const t=[...TOK,...custom].find(x=>x.address&&x.address.toLowerCase()===a.toLowerCase());return t?t.symbol:a.slice(0,6)+'…'};
+function showQuote(res,amt){const dOut=decOf(st),dIn=decOf(sf);
+if(res.text!==undefined){$('#swTo').value=res.text;$('#dRate').textContent=res.rate||'—';$('#dMin').textContent='—';$('#dRoute').textContent='Custom';$('#dImp').textContent='—'}
+else{$('#swTo').value=fmtU(res.raw,dOut,6);const rate=(Number(res.raw)/10**dOut)/(Number(parseU(amt,dIn))/10**dIn);
+$('#dRate').textContent='1 '+sf.symbol+' ≈ '+rate.toLocaleString('en-US',{maximumFractionDigits:6})+' '+st.symbol;
+$('#dMin').textContent=fmtU(res.raw*BigInt(10000-slip)/10000n,dOut,6)+' '+st.symbol;
+$('#dRoute').textContent=res.route.wrap?'Wrap / Unwrap':res.route.tokens.map(symOf).join(' → ')+' · '+res.route.fees.map(f=>f/10000+'%').join(' / ');
+const im=$('#dImp');im.textContent=res.imp!=null?res.imp.toFixed(2)+'%':'—';im.style.color=res.imp>5?'#f87171':''}
+$('#dSlip').textContent=(slip/100)+'%';$('#swDet').classList.remove('hidden')}
+let swTm,swSeq=0;
+function swQuote(){clearTimeout(swTm);const amt=$('#swFrom').value;$('#swTo').value='';swS.res=null;$('#swDet').classList.add('hidden');
+if(!amt||!(+amt>0)){swS.q='idle';btnState();return}
+swS.q='load';btnState();const my=++swSeq;
+swTm=setTimeout(async()=>{try{let res;
+if(TS.quote){const q=await TS.quote({from:sf.symbol,to:st.symbol,amount:amt});res=q&&{text:q.out,rate:q.rate}}
+else{const q=await getQuote(sf,st,amt);res=q&&{raw:q.out,route:q.route,imp:q.imp}}
+if(my!==swSeq)return;if(!res){swS.q='none';btnState();return}
+swS.res=res;showQuote(res,amt);swS.q='ok';swM('')}catch(e){if(my!==swSeq)return;swS.q='none';swM(e.message||'Quote failed',1)}btnState()},350)}
+function openSw(){swM('');const m=$('#sw');m.classList.remove('hidden');m.classList.add('flex');swapUI()}
+function closeSw(){closeSel();const m=$('#sw');m.classList.add('hidden');m.classList.remove('flex')}
+/* выбор токена */
+function openSel(side){selSide=side;$('#swSel').classList.remove('hidden');$('#swQ').value='';renderPop();renderList('');setTimeout(()=>$('#swQ').focus(),60)}
+function closeSel(){$('#swSel').classList.add('hidden')}
+function renderPop(){const c=$('#swPop');c.innerHTML='';['BNB','USDI','USDT','USDC'].forEach(s=>{const t=TOK.find(x=>x.symbol===s),b=document.createElement('button');b.className='chipt';b.innerHTML=icon(t,22)+esc(t.symbol);b.onclick=()=>pick(t);c.appendChild(b)})}
+function dStr(h){if(!h||h==='0x')return'';h=h.slice(2);try{let hex;if(h.length===64)hex=h.replace(/(00)+$/,'');else{const o=parseInt(h.slice(0,64),16)*2,l=parseInt(h.slice(o,o+64),16);hex=h.slice(o+64,o+64+l*2)}
+return new TextDecoder().decode(new Uint8Array((hex.match(/../g)||[]).map(x=>parseInt(x,16)))).replace(/[^\x20-\x7E]/g,'').slice(0,24)}catch(_){return''}}
+async function lookup(addr){const c=d=>rpc('eth_call',[{to:addr,data:d},'latest']);const[s,n,d]=await Promise.all([c('0x95d89b41'),c('0x06fdde03'),c('0x313ce567')]);
+const dec=parseInt(d,16),sym=dStr(s);if(!sym||!(dec>=0&&dec<=36))throw new Error('Not a valid BEP-20 token');return{symbol:sym,name:dStr(n)||sym,address:addr,decimals:dec,color:'#64748b',custom:true}}
+async function renderList(q){const L=$('#swList'),ql=q.trim().toLowerCase(),all=[...TOK,...custom];
+const items=all.filter(t=>!ql||t.symbol.toLowerCase().includes(ql)||t.name.toLowerCase().includes(ql)||(t.address&&t.address.toLowerCase()===ql));
+L.innerHTML='';
+if(!items.length&&/^0x[a-fA-F0-9]{40}$/.test(q.trim())){L.innerHTML='<div class="text-sm text-txt/40 p-3">Looking up token…</div>';
+try{const t=await lookup(q.trim());if($('#swQ').value.trim()!==q.trim())return;custom.push(t);renderList(q)}catch(e){L.innerHTML='<div class="text-sm text-red-400 p-3">'+esc(e.message||'Token not found')+'</div>'}return}
+if(!items.length){L.innerHTML='<div class="text-sm text-txt/40 p-3">No tokens found</div>';return}
+items.forEach(t=>{const r=document.createElement('div'),sel=t===sf||t===st;r.className='tkrow';
+r.innerHTML=icon(t,36)+`<div class="flex-1 min-w-0"><div class="text-white font-semibold text-sm">${esc(t.symbol)}${t.custom?' <span class="text-[10px] text-accent border border-accent/30 rounded px-1 ml-1">custom</span>':''}${sel?' <span class="text-mint text-xs ml-1">✓</span>':''}</div><div class="text-xs text-txt/40 truncate">${esc(t.name)}</div></div><div class="text-sm text-txt/70 font-mono" data-b></div>`;
+r.onclick=()=>pick(t);L.appendChild(r);
+if(P&&ACC&&!swS.bad)tokRaw(t).then(v=>{const b=r.querySelector('[data-b]');if(b&&v!=null)b.textContent=fmtU(v,decOf(t),4)})})}
+function pick(t){if(selSide==='from'){if(t===st)st=sf;sf=t}else{if(t===sf)sf=st;st=t}closeSel();$('#swFrom').value=$('#swFrom').value;renderSwap();swapUI();swQuote()}
+/* события */
+$('#swX').onclick=closeSw;$('#sw').addEventListener('click',e=>{if(e.target.id==='sw')closeSw()});
+addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('#swSel').classList.contains('hidden'))closeSel();else closeSw()}});
+$('#swFromBtn').onclick=()=>openSel('from');$('#swToBtn').onclick=()=>openSel('to');$('#swSelX').onclick=closeSel;$('#swQ').oninput=e=>renderList(e.target.value);
+$('#swFlip').onclick=()=>{const o=$('#swTo').value;[sf,st]=[st,sf];$('#swFrom').value=o||'';renderSwap();swapUI();swQuote()};
+$('#swFrom').oninput=e=>{let v=e.target.value.replace(/,/g,'.').replace(/[^0-9.]/g,'');const i=v.indexOf('.');if(i>-1)v=v.slice(0,i+1)+v.slice(i+1).replace(/\./g,'');e.target.value=v;swQuote()};
+function setPct(p){if(swS.bal==null||swS.bal<=0n)return;let v=swS.bal*BigInt(p)/100n;if(sf.native&&p===100){const g=10n**15n*5n;v=v>g?v-g:0n}$('#swFrom').value=unitsStr(v,decOf(sf));swQuote()}
+$('#swMax').onclick=()=>setPct(100);$('#swHalf').onclick=()=>setPct(50);
+$('#swRef').onclick=()=>{$('#swRef').firstChild&&$('#swRef').classList.add('spin2');setTimeout(()=>$('#swRef').classList.remove('spin2'),700);swapUI();swQuote()};
+$('#swSet').onclick=()=>$('#swSetP').classList.toggle('hidden');
+function setSlip(v){slip=Math.min(5000,Math.max(1,Math.round(v)));$$('.slb').forEach(b=>b.classList.toggle('on',+b.dataset.s===slip));$('#dSlip').textContent=(slip/100)+'%';if(swS.res&&swS.q==='ok')showQuote(swS.res,$('#swFrom').value)}
+$$('.slb').forEach(b=>b.onclick=()=>{$('#slC').value='';setSlip(+b.dataset.s)});
+$('#slC').oninput=e=>{const v=parseFloat(e.target.value.replace(',','.'));if(v>0&&v<=50)setSlip(v*100)};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function waitTx(h){for(let i=0;i<120;i++){const r=await P.request({method:'eth_getTransactionReceipt',params:[h]});if(r){if(r.status==='0x0')throw new Error('Transaction failed on-chain');return r}await sleep(2000)}throw new Error('Timed out waiting for confirmation')}
+const bytesBlk=hx=>h32(hx.length/2)+padHex(hx);
+function multicall(list){const blocks=list.map(bytesBlk);let off=list.length*32;const offs=[];blocks.forEach(b=>{offs.push(off);off+=b.length/2});return'0xac9650d8'+h32(32)+h32(list.length)+offs.map(h32).join('')+blocks.join('')}
+async function ensureAllowance(t,amt){const cur=BigInt(await P.request({method:'eth_call',params:[{to:t.address,data:'0xdd62ed3e'+a32(ACC)+a32(UNI.router)},'latest']}));if(cur>=amt)return;
+swM('Approve '+t.symbol+' in your wallet…');const h=await P.request({method:'eth_sendTransaction',params:[{from:ACC,to:t.address,data:'0x095ea7b3'+a32(UNI.router)+h32(amt)}]});swM('Waiting for approval…');await waitTx(h)}
+async function uniSwap(amt){const res=swS.res,a=sf,b=st,ain=parseU(amt,decOf(a)),minRaw=res.raw*BigInt(10000-slip)/10000n,rt=res.route,hx=v=>'0x'+v.toString(16);
+if(rt.wrap){const tx=a.native?{from:ACC,to:WBNB,value:hx(ain),data:'0xd0e30db0'}:{from:ACC,to:WBNB,data:'0x2e1a7d4d'+h32(ain)};const hash=await P.request({method:'eth_sendTransaction',params:[tx]});await waitTx(hash);return{hash}}
+if(!a.native)await ensureAllowance(a,ain);
+const toNative=b.native,rec=toNative?'0x0000000000000000000000000000000000000002':ACC;let inner;
+if(rt.fees.length===1)inner='04e45aaf'+a32(rt.tokens[0])+a32(rt.tokens[1])+h32(rt.fees[0])+a32(rec)+h32(ain)+h32(toNative?0:minRaw)+h32(0);
+else{const p=pathHex(rt);inner='b858183f'+h32(32)+h32(128)+a32(rec)+h32(ain)+h32(toNative?0:minRaw)+h32(p.length/2)+padHex(p)}
+const data=toNative?multicall([inner,'49404b7c'+h32(minRaw)+a32(ACC)]):'0x'+inner;
+swM('Confirm the swap in your wallet…');const hash=await P.request({method:'eth_sendTransaction',params:[{from:ACC,to:UNI.router,data,value:a.native?hx(ain):'0x0'}]});
+swM('Waiting for confirmation…');await waitTx(hash);return{hash}}
+$('#swGo').onclick=async()=>{swM('');if(!ACC){closeSw();openM();return}
+try{if((await P.request({method:'eth_chainId'}))!==CH){await ensureChain();await swapUI();return}}catch(e){swM(e.message,1);return}
+const amt=$('#swFrom').value;if(!(+amt>0)||!swS.res){swM('Enter an amount',1);return}
+const gb=$('#swGo');gb.disabled=true;
+try{const res=swS.res,minRaw=res.raw!=null?res.raw*BigInt(10000-slip)/10000n:null;
+const r=TS.execute?await TS.execute({from:sf.symbol,to:st.symbol,fromToken:sf,toToken:st,amount:amt,minOut:minRaw!=null?unitsStr(minRaw,decOf(st)):null,slippageBps:slip,route:res.route||null,router:UNI.router,account:ACC,provider:P,chainId:CH}):await uniSwap(amt);
+if(r&&/^0x[0-9a-fA-F]{64}$/.test(r.hash||'')){$('#swMsg').className='text-xs mt-3 min-h-[1rem] text-center text-mint';$('#swMsg').innerHTML='Swap confirmed · <a class="underline" target="_blank" rel="noopener" href="'+SCAN+'/tx/'+r.hash+'">view on BscScan</a>'}else swM('Done');
+$('#swFrom').value='';swQuote();swapUI()}catch(e){swM(e.code===4001?'Rejected in wallet':String(e.message||'Swap failed').slice(0,140),1)}
+gb.disabled=false;btnState()};
+const _ui=ui;ui=function(){_ui();swapUI()};
+$('#navSwap').onclick=openSw;$('#navSwapM').onclick=()=>{$('#mobile').classList.add('hidden');openSw()};$('#buyCrypto').onclick=openSw;
+renderSwap();
 lucide.createIcons();
 </script>
 </body>
