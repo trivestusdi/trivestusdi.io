@@ -160,13 +160,6 @@ input[type=range].sl::-moz-range-thumb{width:26px;height:26px;border-radius:50%;
 .lite .w,.lite .hs{filter:none}
 .lite .swbox{animation:swIn .3s ease;box-shadow:none}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv,.w,.hs{opacity:1!important;translate:none!important;filter:none!important}#donut{opacity:1}}
-.swcheck{width:96px;height:96px;margin-top:30px;filter:drop-shadow(0 0 16px rgba(0,212,160,.55))}
-.ck-c{fill:rgba(0,167,123,.12);stroke:#00d4a0;stroke-width:2;stroke-dasharray:152;stroke-dashoffset:152;animation:ckd .65s ease forwards}
-.ck-p{fill:none;stroke:#00d4a0;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40;animation:ckd .4s .55s ease forwards}
-@keyframes ckd{to{stroke-dashoffset:0}}
-.swcheck{animation:ckp 2.4s ease-in-out .9s}
-@keyframes ckp{50%{transform:scale(1.08)}}
-.airbox{border:1px solid rgba(247,225,215,.22);background:linear-gradient(160deg,rgba(247,225,215,.07),rgba(0,167,123,.06));border-radius:20px;padding:16px 18px}
 </style>
 </head>
 <body>
@@ -396,7 +389,6 @@ input[type=range].sl::-moz-range-thumb{width:26px;height:26px;border-radius:50%;
 <div class="flex items-center gap-1.5"><button id="swSet" class="swib" title="Settings"><i data-lucide="settings-2" class="w-4 h-4"></i></button><button id="swRef" class="swib" title="Refresh"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button><button id="swX" class="swib" title="Close"><i data-lucide="x" class="w-4 h-4"></i></button></div>
 </div>
 <div id="swSetP" class="hidden mb-4 swfield"><div class="text-xs text-txt/50 mb-2.5">Slippage tolerance</div><div class="flex flex-wrap items-center gap-2"><button class="slb" data-s="10">0.1%</button><button class="slb on" data-s="50">0.5%</button><button class="slb" data-s="100">1%</button><button class="slb" data-s="300">3%</button><div class="flex items-center gap-1 ml-auto"><input id="slC" inputmode="decimal" placeholder="Custom" class="w-20 bg-white/5 border border-white/10 rounded-lg px-2 py-1.5 text-xs text-white outline-none focus:border-primary/60"><span class="text-xs text-txt/40">%</span></div></div></div>
-<button id="swAirB" class="hidden w-full mb-3 airbox text-left text-sm text-white flex items-center gap-2"><i data-lucide="gift" class="w-4 h-4 text-accent"></i><span id="swAirT" class="flex-1"></span><span class="text-mint">→</span></button>
 <!-- ===== SWAP_SLOT_START: интерфейс обмена. Логика подключается через window.TrivestSwap (quote / execute) ===== -->
 <div id="swapSlot">
 <div class="swfield"><div class="flex justify-between items-center text-xs text-txt/45 mb-3"><span>You pay</span><span class="flex items-center gap-2">Balance: <b id="swFBal" class="text-txt/80 font-medium">—</b><button id="swHalf" class="text-mint hover:text-white font-semibold">50%</button><button id="swMax" class="text-mint hover:text-white font-semibold">MAX</button></span></div>
@@ -410,26 +402,6 @@ input[type=range].sl::-moz-range-thumb{width:26px;height:26px;border-radius:50%;
 <!-- ===== SWAP_SLOT_END ===== -->
 <p id="swMsg" class="text-xs mt-3 min-h-[1rem] text-txt/50 text-center"></p>
 <div class="text-center text-[10px] text-txt/30 font-mono mt-3">Routed via Uniswap V3 · BNB Smart Chain</div>
-</div>
-<div id="swOk" class="swsel hidden absolute inset-0 z-30 p-5 sm:p-6 flex flex-col items-center text-center overflow-y-auto" style="scrollbar-width:none">
-<button id="swOkX" class="swib absolute top-4 right-4" title="Close"><i data-lucide="x" class="w-4 h-4"></i></button>
-<svg class="swcheck" viewBox="0 0 52 52"><circle class="ck-c" cx="26" cy="26" r="24"/><path class="ck-p" d="M15 27l8 8 14-16"/></svg>
-<h3 class="text-white font-bold text-xl head mt-5">Swap successful</h3>
-<div id="okSum" class="text-sm text-txt/70 mt-1.5"></div>
-<a id="okTx" target="_blank" rel="noopener" class="text-xs text-mint hover:text-white underline mt-1.5">View on BscScan ↗</a>
-<div id="okAir" class="airbox hidden w-full mt-6 text-left">
-<div class="flex items-center gap-2 text-accent text-xs font-semibold tracking-wide mb-1"><i data-lucide="gift" class="w-4 h-4"></i>AIRDROP BONUS</div>
-<div id="airAmt" class="text-white text-2xl font-bold head">+0</div><div id="airSub" class="text-xs text-txt/50 mb-3"></div>
-<div id="airForm">
-<button id="airPh" class="btn-outline w-full text-sm py-2.5 rounded-xl text-white">Connect Phantom</button>
-<div class="text-[11px] text-txt/35 text-center my-2">or paste your Solana address</div>
-<input id="airSol" placeholder="Solana wallet address" autocomplete="off" spellcheck="false" class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white font-mono outline-none focus:border-primary/60">
-<button id="airGo" class="swgo mt-3" style="padding:13px;font-size:14px">Claim airdrop</button>
-</div>
-<div id="airDone" class="hidden text-sm text-mint flex items-start gap-2"><i data-lucide="check-circle" class="w-4 h-4 mt-0.5 shrink-0"></i><span id="airDoneT"></span></div>
-<p id="airMsg" class="text-xs mt-2 min-h-[1rem] text-txt/50"></p>
-</div>
-<button id="okDone" class="swgo mt-6" style="max-width:100%">Done</button>
 </div>
 <div id="swSel" class="swsel hidden absolute inset-0 z-20 p-5 sm:p-6 flex flex-col">
 <div class="flex items-center justify-between mb-4"><h3 class="text-white font-bold text-lg head">Select a token</h3><button id="swSelX" class="swib"><i data-lucide="x" class="w-4 h-4"></i></button></div>
@@ -665,7 +637,7 @@ else{const q=await getQuote(sf,st,amt);res=q&&{raw:q.out,route:q.route,imp:q.imp
 if(my!==swSeq)return;if(!res){swS.q='none';btnState();return}
 swS.res=res;showQuote(res,amt);swS.q='ok';swM('')}catch(e){if(my!==swSeq)return;swS.q='none';swM(e.message||'Quote failed',1)}btnState()},350)}
 function openSw(){swM('');const m=$('#sw');m.classList.remove('hidden');m.classList.add('flex');swapUI()}
-function closeSw(){closeSel();$('#swOk').classList.add('hidden');const m=$('#sw');m.classList.add('hidden');m.classList.remove('flex')}
+function closeSw(){closeSel();const m=$('#sw');m.classList.add('hidden');m.classList.remove('flex')}
 /* выбор токена */
 function openSel(side){selSide=side;$('#swSel').classList.remove('hidden');$('#swQ').value='';renderPop();renderList('');setTimeout(()=>$('#swQ').focus(),60)}
 function closeSel(){$('#swSel').classList.add('hidden')}
@@ -717,47 +689,12 @@ $('#swGo').onclick=async()=>{swM('');if(!ACC){closeSw();openM();return}
 try{if(Number(await P.request({method:'eth_chainId'}))!==56){await ensureChain();await swapUI();return}}catch(e){swM(e.message,1);return}
 const amt=$('#swFrom').value;if(!(+amt>0)||!swS.res){swM('Enter an amount',1);return}
 const gb=$('#swGo');gb.disabled=true;
-try{const res=swS.res,minRaw=res.raw!=null?res.raw*BigInt(10000-slip)/10000n:null;const snap={amt,out:$('#swTo').value,from:sf,to:st};
+try{const res=swS.res,minRaw=res.raw!=null?res.raw*BigInt(10000-slip)/10000n:null;
 const r=TS.execute?await TS.execute({from:sf.symbol,to:st.symbol,fromToken:sf,toToken:st,amount:amt,minOut:minRaw!=null?unitsStr(minRaw,decOf(st)):null,slippageBps:slip,route:res.route||null,router:UNI.router,account:ACC,provider:P,chainId:CH}):await uniSwap(amt);
-if(r&&/^0x[0-9a-fA-F]{64}$/.test(r.hash||'')){swM('');showOk(snap,r.hash)}else swM('Done');
+if(r&&/^0x[0-9a-fA-F]{64}$/.test(r.hash||'')){$('#swMsg').className='text-xs mt-3 min-h-[1rem] text-center text-mint';$('#swMsg').innerHTML='Swap confirmed · <a class="underline" target="_blank" rel="noopener" href="'+SCAN+'/tx/'+r.hash+'">view on BscScan</a>'}else swM('Done');
 $('#swFrom').value='';swQuote();swapUI();refresh()}catch(e){swM(e.code===4001?'Rejected in wallet':String(e.message||'Swap failed').slice(0,140),1)}
 gb.disabled=false;btnState()};
-/* ===== AIRDROP: бонус за обмен USDT → USDI, выплата в сети Solana ===== */
-/* api — адрес воркера из airdrop-backend (например https://trivest-airdrop.xxx.workers.dev). Пока пусто — демо-режим. */
-const AIR={on:true,api:'',symbol:'USDI',minUsdt:10,ratio:0.5,max:50};
-let AIRC=[];try{AIRC=JSON.parse(localStorage.getItem('air_claims')||'[]')}catch(_){}
-const airSave=()=>{try{localStorage.setItem('air_claims',JSON.stringify(AIRC.slice(-50)))}catch(_){}};
-const b58A='123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-function b58len(s){let n=0n;for(const c of s){const i=b58A.indexOf(c);if(i<0)return-1;n=n*58n+BigInt(i)}let hx=n===0n?'':n.toString(16);if(hx.length%2)hx='0'+hx;let l=hx.length/2;for(const c of s){if(c==='1')l++;else break}return l}
-const toHex=s=>'0x'+[...new TextEncoder().encode(s)].map(b=>b.toString(16).padStart(2,'0')).join('');
-const airMsg=c=>'Trivest USDI airdrop\nSwap tx: '+c.tx+'\nBNB wallet: '+c.bsc+'\nSolana wallet: '+c.sol;
-const airM=(t,bad)=>{$('#airMsg').textContent=t||'';$('#airMsg').className='text-xs mt-2 min-h-[1rem] '+(bad?'text-red-400':'text-txt/50')};
-let curClaim=null;
-function airReward(s){if(!AIR.on||s.from.symbol!=='USDT'||s.to.symbol!=='USDI')return 0;const a=+s.amt;if(!(a>=AIR.minUsdt))return 0;return Math.min(AIR.max,Math.floor(a*AIR.ratio*100)/100)}
-function airShow(c){curClaim=c;$('#okAir').classList.remove('hidden');$('#airAmt').textContent='+'+c.reward+' '+AIR.symbol;$('#airSub').textContent='on Solana · for swapping '+c.usdt+' USDT';
-const done=c.status!=='new';$('#airForm').classList.toggle('hidden',done);$('#airDone').classList.toggle('hidden',!done);
-if(done)$('#airDoneT').textContent=c.status==='demo'?'Claim saved. (Demo mode: the payout server is not connected yet.)':'Claim submitted. Tokens will arrive in your Solana wallet shortly.';
-else{$('#airSol').value=c.sol||'';airM('')}}
-function openOk(){const o=$('#swOk'),ck=o.querySelector('.swcheck');ck.replaceWith(ck.cloneNode(true));o.classList.remove('hidden')}
-function showOk(s,hash){$('#okSum').textContent=s.amt+' '+s.from.symbol+(s.out?' → '+s.out+' '+s.to.symbol:'');$('#okTx').href=SCAN+'/tx/'+hash;$('#okAir').classList.add('hidden');openOk();
-const rw=airReward(s);if(rw>0){const c={tx:hash.toLowerCase(),bsc:ACC.toLowerCase(),reward:rw,usdt:+s.amt,sol:'',status:'new',ts:Date.now()};AIRC.push(c);airSave();airShow(c)}airBanner()}
-function airBanner(){const c=ACC&&AIRC.find(x=>x.bsc===ACC.toLowerCase()&&x.status==='new'),b=$('#swAirB');b.classList.toggle('hidden',!c);if(c)$('#swAirT').textContent='Claim '+c.reward+' '+AIR.symbol+' airdrop on Solana'}
-$('#swAirB').onclick=()=>{const c=ACC&&AIRC.find(x=>x.bsc===ACC.toLowerCase()&&x.status==='new');if(!c)return;$('#okSum').textContent='Swap of '+c.usdt+' USDT → USDI';$('#okTx').href=SCAN+'/tx/'+c.tx;openOk();airShow(c)};
-$('#swOkX').onclick=$('#okDone').onclick=()=>$('#swOk').classList.add('hidden');
-$('#airPh').onclick=async()=>{const p=(window.phantom&&window.phantom.solana)||window.solana;
-if(!p||!p.isPhantom){if(mob)location.href='https://phantom.app/ul/browse/'+encodeURIComponent(location.href)+'?ref='+encodeURIComponent(location.origin);else window.open('https://phantom.app/download','_blank');return}
-try{const r=await p.connect();$('#airSol').value=r.publicKey.toString();airM('')}catch(e){airM('Phantom connection was cancelled',1)}};
-$('#airGo').onclick=async()=>{const c=curClaim;if(!c)return;const sol=$('#airSol').value.trim();
-if(b58len(sol)!==32){airM('Enter a valid Solana address',1);return}
-if(!P||!ACC||ACC.toLowerCase()!==c.bsc){airM('Connect the wallet that made the swap',1);return}
-const g=$('#airGo');g.disabled=true;c.sol=sol;
-try{airM('Confirm the free signature in your wallet (no gas)…');const sig=await P.request({method:'personal_sign',params:[toHex(airMsg(c)),ACC]});airM('Sending…');
-if(AIR.api){const r=await fetch(AIR.api.replace(/\/$/,'')+'/claim',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({tx:c.tx,bsc:c.bsc,sol,sig})}),j=await r.json().catch(()=>({}));if(!r.ok||!j.ok)throw new Error(j.error||'Claim rejected');if(j.reward)c.reward=j.reward}
-c.status=AIR.api?'submitted':'demo';airSave();airShow(c);airBanner()}
-catch(e){airM(e.code===4001?'Signature rejected':String(e.message||'Failed').slice(0,140),1)}g.disabled=false};
-const _o=openSw;openSw=function(){_o();airBanner()};
-const _ui=ui;ui=function(){_ui();swapUI();airBanner()};
-
+const _ui=ui;ui=function(){_ui();swapUI()};
 setInterval(()=>{if(ACC&&!document.hidden)refresh()},30000);
 $('#navSwap').onclick=openSw;$('#navBuy').onclick=openSw;$('#buyBarBtn').onclick=openSw;$('#navSwapM').onclick=()=>{$('#mobile').classList.add('hidden');openSw()};$('#buyCrypto').onclick=openSw;
 renderSwap();
