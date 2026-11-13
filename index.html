@@ -702,3 +702,144 @@ lucide.createIcons();
 </script>
 </body>
 </html>
+<!-- ===== AA SALE MODULE: вставить в index.html ПЕРЕД </body>, после основного <script> ===== -->
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<style>
+.aai{width:100%;min-width:0;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 12px;color:#fff;font-size:13px;outline:none}
+.aai:focus{border-color:rgba(0,212,160,.5)}
+.aab{padding:10px 14px;border-radius:12px;font-size:13px;font-weight:600;color:#fff;background:linear-gradient(135deg,#00c28f,#008f69);white-space:nowrap;transition:.2s}
+.aab:hover:not(:disabled){box-shadow:0 0 24px rgba(0,212,160,.4)}
+.aab:disabled{opacity:.4;cursor:not-allowed}
+.aab.red{background:linear-gradient(135deg,#ef4444,#b91c1c)}
+.aab.ghost{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12)}
+#aaAdmBtn{position:fixed;left:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:70}
+.aaH{font-size:11px;color:rgba(220,220,220,.45);font-family:'JetBrains Mono',monospace;margin:18px 0 8px}
+</style>
+<script>
+(()=>{
+const SALE='0xFa7b3c7fa64c33BdA4Bb40c2335E6EaA551d9081';
+const ABI=['function aaToken() view returns (address)','function usdt() view returns (address)','function owner() view returns (address)','function paused() view returns (bool)',
+'function quote(uint256) view returns (uint256 aaAmount,uint256 price)','function getTiers() view returns (tuple(uint256 minUsdt,uint256 price)[])',
+'function aaAvailable() view returns (uint256)','function usdtBalance() view returns (uint256)','function totalUsdtRaised() view returns (uint256)','function totalAASold() view returns (uint256)',
+'function buy(uint256)','function setTiers(tuple(uint256 minUsdt,uint256 price)[])','function withdrawUsdt(address,uint256)','function withdrawAllUsdt(address)','function withdrawAA(address,uint256)',
+'function rescueToken(address,address,uint256)','function pause()','function unpause()','function transferOwnership(address)'];
+const ERC=['function symbol() view returns (string)','function decimals() view returns (uint8)','function balanceOf(address) view returns (uint256)','function allowance(address,address) view returns (uint256)','function approve(address,uint256) returns (bool)'];
+const q=s=>document.querySelector(s),qa=s=>[...document.querySelectorAll(s)];
+const ro=new ethers.JsonRpcProvider('https://bsc-dataseed.binance.org/',56,{staticNetwork:ethers.Network.from(56)});
+const sale=new ethers.Contract(SALE,ABI,ro);
+const S={sA:'AA',sU:'USDT',dA:18,dU:18,tiers:[],owner:null,paused:false,avail:0n,balU:0n,q:null,ready:false};
+const acc=()=>window.TrivestWallet&&window.TrivestWallet.account,prov=()=>window.TrivestWallet&&window.TrivestWallet.provider;
+const isOwner=()=>!!(acc()&&S.owner&&acc().toLowerCase()===S.owner.toLowerCase());
+const f=(v,d,dp=4)=>{const[i,fr='']=ethers.formatUnits(v,d).split('.'),x=fr.slice(0,dp).replace(/0+$/,'');return BigInt(i).toLocaleString('en-US')+(x?'.'+x:'')};
+const err=e=>e&&e.code==='ACTION_REJECTED'?'Rejected in wallet':String((e&&(e.shortMessage||e.reason||e.message))||e).slice(0,160);
+const parse=(s,d)=>{try{const[i,fr='']=String(s).split('.');return ethers.parseUnits((i||'0')+'.'+fr.slice(0,d),d)}catch(_){return null}};
+const signer=async()=>new ethers.BrowserProvider(prov()).getSigner();
+async function chain(){const p=prov();if(parseInt(await p.request({method:'eth_chainId'}),16)===56)return;await p.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x38'}]})}
+
+/* ---------- данные из контракта ---------- */
+async function loadMeta(){
+ const[a,u]=await Promise.all([sale.aaToken(),sale.usdt()]);
+ S.aa=new ethers.Contract(a,ERC,ro);S.us=new ethers.Contract(u,ERC,ro);
+ const r=await Promise.all([S.aa.symbol(),S.aa.decimals(),S.us.symbol(),S.us.decimals()]);
+ S.sA=r[0];S.dA=Number(r[1]);S.sU=r[2];S.dU=Number(r[3]);
+ qa('.aaS').forEach(e=>e.textContent=S.sA);qa('.aaU').forEach(e=>e.textContent=S.sU);
+}
+async function loadState(){
+ const r=await Promise.all([sale.getTiers(),sale.aaAvailable(),sale.paused(),sale.owner(),acc()?S.us.balanceOf(acc()):0n]);
+ S.tiers=r[0].map(t=>({min:t[0],price:t[1]}));S.avail=r[1];S.paused=r[2];S.owner=r[3];S.balU=r[4];
+ q('#aaUB').textContent=acc()?f(S.balU,S.dU,2):'—';
+ q('#aaAv').textContent=f(S.avail,S.dA,2)+' '+S.sA;
+ q('#aaMin').textContent=S.tiers.length?f(S.tiers[0].min,S.dU)+' '+S.sU:'—';
+ q('#aaTiers').innerHTML=S.tiers.map(t=>`<div class="flex justify-between"><span>from ${f(t.min,S.dU)} ${S.sU}</span><b>${f(t.price,S.dU,6)} ${S.sU} / ${S.sA}</b></div>`).join('');
+ syncAdmin();btn();
+}
+
+/* ---------- окно покупки ---------- */
+const modal=(id,inner)=>`<div id="${id}" class="fixed inset-0 z-[10002] hidden items-center justify-center bg-black/75 backdrop-blur-md p-3"><div class="swbox w-full max-w-[480px] max-h-[94vh] overflow-y-auto"><div class="swcard p-5 sm:p-6"><div class="swglow"></div><div class="relative">${inner}</div></div></div></div>`;
+document.body.insertAdjacentHTML('beforeend',modal('aaSale',`
+<div class="flex items-center justify-between mb-5"><div><h3 class="text-white font-bold text-xl head">Buy <span class="aaS">AA</span></h3><div class="text-[11px] font-mono text-txt/50 mt-1">BNB Smart Chain · tiered price</div></div><button class="swib" data-close>✕</button></div>
+<div class="swfield"><div class="flex justify-between items-center text-xs text-txt/45 mb-3"><span>You pay</span><span>Balance: <b id="aaUB" class="text-txt/80">—</b> <button id="aaMax" class="text-mint font-semibold ml-1">MAX</button></span></div>
+<div class="flex items-center gap-3"><input id="aaIn" class="swin" inputmode="decimal" placeholder="0.0" autocomplete="off"><span class="tokbtn aaU">USDT</span></div></div>
+<div class="swfield mt-3"><div class="text-xs text-txt/45 mb-3">You receive</div><div class="flex items-center gap-3"><input id="aaOut" class="swin" readonly placeholder="0.0"><span class="tokbtn aaS">AA</span></div></div>
+<div class="mt-3 px-1 space-y-1.5"><div class="flex justify-between sdet"><span>Price</span><b id="aaPr">—</b></div><div class="flex justify-between sdet"><span>Minimum purchase</span><b id="aaMin">—</b></div><div class="flex justify-between sdet"><span>Available</span><b id="aaAv">—</b></div></div>
+<div class="mt-3 px-1 text-xs text-txt/45 space-y-1"><div class="text-txt/60 mb-1">Price tiers (the whole payment uses the highest tier reached)</div><div id="aaTiers"></div></div>
+<button id="aaGo" class="swgo mt-4">Connect wallet</button><p id="aaMsg" class="text-xs mt-3 min-h-[1rem] text-center text-txt/50"></p>`));
+const msg=(t,bad)=>{const m=q('#aaMsg');m.textContent=t||'';m.className='text-xs mt-3 min-h-[1rem] text-center '+(bad?'text-red-400':'text-txt/50')};
+const open=id=>{const m=q(id);m.classList.remove('hidden');m.classList.add('flex')},close=id=>{const m=q(id);if(m){m.classList.add('hidden');m.classList.remove('flex')}};
+q('#aaSale').addEventListener('click',e=>{if(e.target.id==='aaSale'||e.target.hasAttribute('data-close'))close('#aaSale')});
+addEventListener('keydown',e=>{if(e.key==='Escape'){close('#aaSale');close('#aaAdm')}});
+const amt=()=>parse(q('#aaIn').value,S.dU);
+function btn(){const b=q('#aaGo'),a=amt();let t='Buy '+S.sA,d=false;
+ if(!acc())t='Connect wallet';
+ else if(S.paused){t='Sales paused';d=true}
+ else if(!a||a<=0n){t='Enter an amount';d=true}
+ else if(S.tiers.length&&a<S.tiers[0].min){t='Minimum '+f(S.tiers[0].min,S.dU)+' '+S.sU;d=true}
+ else if(a>S.balU){t='Insufficient '+S.sU;d=true}
+ else if(!S.q){t='Fetching price…';d=true}
+ else if(S.q.aa>S.avail){t='Not enough '+S.sA+' left in the sale';d=true}
+ b.textContent=t;b.disabled=d}
+let tm,seq=0;
+function requote(){clearTimeout(tm);S.q=null;q('#aaOut').value='';q('#aaPr').textContent='—';const a=amt();btn();if(!a||a<=0n)return;
+ const my=++seq;tm=setTimeout(async()=>{try{const r=await sale.quote(a);if(my!==seq)return;S.q={aa:r[0],price:r[1]};q('#aaOut').value=f(r[0],S.dA,6);q('#aaPr').textContent=f(r[1],S.dU,6)+' '+S.sU+' / '+S.sA;msg('')}catch(_){if(my===seq)msg('')}btn()},300)}
+q('#aaIn').oninput=e=>{let v=e.target.value.replace(/,/g,'.').replace(/[^0-9.]/g,'');const i=v.indexOf('.');if(i>-1)v=v.slice(0,i+1)+v.slice(i+1).replace(/\./g,'');e.target.value=v;requote()};
+q('#aaMax').onclick=()=>{if(!acc())return;q('#aaIn').value=ethers.formatUnits(S.balU,S.dU);requote()};
+q('#aaGo').onclick=async()=>{msg('');
+ if(!acc()){close('#aaSale');const w=q('#wbtn');if(w)w.click();return}
+ const b=q('#aaGo'),a=amt();b.disabled=true;
+ try{await chain();const sg=await signer(),shown=S.q.aa;
+  const now=await sale.quote(a);if(now[0]<shown)throw new Error('Price changed — review the new amount and try again');
+  const us=S.us.connect(sg);
+  if((await S.us.allowance(acc(),SALE))<a){msg('Approve '+S.sU+' in your wallet…');await(await us.approve(SALE,a)).wait()}
+  msg('Confirm the purchase in your wallet…');const tx=await sale.connect(sg).buy(a);msg('Waiting for confirmation…');await tx.wait();
+  q('#aaMsg').className='text-xs mt-3 min-h-[1rem] text-center text-mint';q('#aaMsg').innerHTML='Purchase confirmed · <a class="underline" target="_blank" rel="noopener" href="https://bscscan.com/tx/'+tx.hash+'">view on BscScan</a>';
+  q('#aaIn').value='';S.q=null;q('#aaOut').value='';await loadState();
+ }catch(e){msg(err(e),1)}
+ btn()};
+function openSale(){msg('');open('#aaSale');loadState().catch(e=>msg(err(e),1))}
+
+/* ---------- админ-панель (создаётся в DOM только для владельца) ---------- */
+const admMsg=(t,bad)=>{const m=q('#aaAm');if(m){m.textContent=t||'';m.className='text-xs mt-3 min-h-[1rem] text-center '+(bad?'text-red-400':'text-mint')}};
+async function run(fn,ok){try{admMsg('Confirm in your wallet…');await chain();const sg=await signer(),tx=await fn(sale.connect(sg));admMsg('Waiting for confirmation…');await tx.wait();admMsg(ok+' ✓');await loadState();await loadAdm()}catch(e){admMsg(err(e),1)}}
+const row=(id,ph)=>`<input id="${id}" class="aai" placeholder="${ph}" autocomplete="off">`;
+function buildAdmin(){
+ document.body.insertAdjacentHTML('beforeend',modal('aaAdm',`
+ <div class="flex items-center justify-between mb-2"><h3 class="text-white font-bold text-xl head">Admin panel</h3><button class="swib" data-aclose>✕</button></div>
+ <div class="text-[11px] font-mono text-mint mb-4" id="aaOwn"></div>
+ <div class="grid grid-cols-2 gap-2 text-xs"><div class="swfield !p-3"><div class="text-txt/45">USDT raised</div><b id="sR" class="text-white">—</b></div><div class="swfield !p-3"><div class="text-txt/45">Tokens sold</div><b id="sS" class="text-white">—</b></div><div class="swfield !p-3"><div class="text-txt/45">USDT in contract</div><b id="sB" class="text-white">—</b></div><div class="swfield !p-3"><div class="text-txt/45">Tokens in contract</div><b id="sA2" class="text-white">—</b></div></div>
+ <div class="aaH">SALE STATUS</div><div class="flex items-center gap-2"><b id="aaSt" class="text-sm text-white flex-1">—</b><button id="aPause" class="aab ghost">Pause</button><button id="aUnp" class="aab ghost">Resume</button></div>
+ <div class="aaH">WITHDRAW USDT</div><div class="space-y-2">${row('wuTo','Recipient address 0x…')}<div class="flex gap-2">${row('wuAm','Amount')}<button id="wuB" class="aab">Withdraw</button><button id="wuAll" class="aab ghost">All</button></div></div>
+ <div class="aaH">WITHDRAW UNSOLD TOKENS</div><div class="space-y-2">${row('waTo','Recipient address 0x…')}<div class="flex gap-2">${row('waAm','Amount')}<button id="waB" class="aab">Withdraw</button></div></div>
+ <div class="aaH">PRICE TIERS — one per line: minimum price (e.g. 100 0.40)</div><textarea id="tiTx" rows="4" class="aai" style="font-family:'JetBrains Mono',monospace"></textarea><button id="tiB" class="aab mt-2 w-full">Save tiers</button>
+ <div class="aaH">TRANSFER OWNERSHIP</div><div class="flex gap-2">${row('toA','New owner 0x… (e.g. multisig)')}<button id="toB" class="aab red">Transfer</button></div>
+ <div class="aaH">RESCUE OTHER TOKEN</div><div class="space-y-2">${row('rcT','Token address 0x…')}${row('rcTo','Recipient 0x…')}<div class="flex gap-2">${row('rcA','Amount in base units (wei)')}<button id="rcB" class="aab">Rescue</button></div></div>
+ <p id="aaAm" class="text-xs mt-3 min-h-[1rem] text-center"></p>`));
+ const m=q('#aaAdm');m.addEventListener('click',e=>{if(e.target.id==='aaAdm'||e.target.hasAttribute('data-aclose'))close('#aaAdm')});
+ const adr=v=>{if(!ethers.isAddress(v))throw new Error('Invalid address');return v},uv=(v,d)=>{const x=parse(v,d);if(!x||x<=0n)throw new Error('Invalid amount');return x};
+ const go=(id,fn,ok,conf)=>q(id).onclick=()=>{try{if(conf&&!confirm(conf))return;const p=fn();run(p,ok)}catch(e){admMsg(err(e),1)}};
+ go('#aPause',()=>c=>c.pause(),'Paused');go('#aUnp',()=>c=>c.unpause(),'Resumed');
+ go('#wuB',()=>{const t=adr(q('#wuTo').value.trim()),a=uv(q('#wuAm').value,S.dU);return c=>c.withdrawUsdt(t,a)},'USDT withdrawn');
+ go('#wuAll',()=>{const t=adr(q('#wuTo').value.trim());return c=>c.withdrawAllUsdt(t)},'All USDT withdrawn','Withdraw ALL USDT from the contract?');
+ go('#waB',()=>{const t=adr(q('#waTo').value.trim()),a=uv(q('#waAm').value,S.dA);return c=>c.withdrawAA(t,a)},'Tokens withdrawn');
+ go('#tiB',()=>{const rows=q('#tiTx').value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{const p=l.split(/\s+/);if(p.length!==2)throw new Error('Format: "min price" per line');return[uv(p[0],S.dU),uv(p[1],S.dU)]});if(!rows.length)throw new Error('Add at least one tier');return c=>c.setTiers(rows)},'Tiers updated');
+ go('#toB',()=>{const a=adr(q('#toA').value.trim());return c=>c.transferOwnership(a)},'Ownership transferred','Transfer ownership? You will lose admin access immediately.');
+ go('#rcB',()=>{const t=adr(q('#rcT').value.trim()),to=adr(q('#rcTo').value.trim()),a=BigInt(q('#rcA').value||'0');if(a<=0n)throw new Error('Invalid amount');return c=>c.rescueToken(t,to,a)},'Token rescued');
+}
+async function loadAdm(){if(!q('#aaAdm'))return;
+ const r=await Promise.all([sale.totalUsdtRaised(),sale.totalAASold(),sale.usdtBalance(),sale.aaAvailable(),sale.paused()]);
+ q('#sR').textContent=f(r[0],S.dU,2)+' '+S.sU;q('#sS').textContent=f(r[1],S.dA,2)+' '+S.sA;q('#sB').textContent=f(r[2],S.dU,2)+' '+S.sU;q('#sA2').textContent=f(r[3],S.dA,2)+' '+S.sA;
+ q('#aaSt').textContent=r[4]?'Paused':'Active';q('#aPause').disabled=r[4];q('#aUnp').disabled=!r[4];
+ q('#aaOwn').textContent='Owner: '+acc();
+ if(!q('#tiTx').dataset.set){q('#tiTx').value=S.tiers.map(t=>ethers.formatUnits(t.min,S.dU)+' '+ethers.formatUnits(t.price,S.dU)).join('\n');q('#tiTx').dataset.set=1}
+ ['#wuTo','#waTo'].forEach(id=>{if(!q(id).value)q(id).value=acc()})}
+function syncAdmin(){const on=isOwner(),b=q('#aaAdmBtn');
+ if(on&&!b){document.body.insertAdjacentHTML('beforeend','<button id="aaAdmBtn" class="btn-primary text-sm font-semibold px-5 py-3 rounded-full shadow-2xl">Admin</button>');buildAdmin();
+  q('#aaAdmBtn').onclick=()=>{open('#aaAdm');loadAdm().catch(e=>admMsg(err(e),1))}}
+ if(!on&&b){b.remove();const m=q('#aaAdm');if(m)m.remove()}}
+
+/* ---------- подключение к сайту ---------- */
+['#navSwap','#navBuy','#buyBarBtn','#buyCrypto','#navSwapM'].forEach(id=>{const e=q(id);if(e)e.onclick=()=>{const mb=q('#mobile');if(mb)mb.classList.add('hidden');openSale()}});
+let last='';setInterval(()=>{const a=acc()||'';if(a!==last){last=a;loadState().catch(()=>{})}},800);
+loadMeta().then(loadState).then(()=>{S.ready=true}).catch(e=>console.error('AA sale init',e));
+})();
+</script>
+<!-- ===== /AA SALE MODULE ===== -->
