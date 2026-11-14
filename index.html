@@ -354,7 +354,6 @@ input[type=range].sl::-moz-range-thumb{width:26px;height:26px;border-radius:50%;
 <a href="https://x.com/trivestusdi" target="_blank" rel="noopener noreferrer" class="btn-outline text-white font-semibold px-8 py-3.5 rounded-xl inline-flex items-center gap-2"><i data-lucide="twitter" class="w-4 h-4"></i>Twitter</a></div>
 </div></section>
 </main>
-
 <footer class="border-t border-white/5 pt-14 pb-8 px-4 sm:px-6 bg-black/20">
 <div class="max-w-7xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
 <div class="lg:col-span-2"><div class="flex items-center gap-2 text-white font-bold head mb-3"><img loading="lazy" decoding="async" src="https://blush-accurate-worm-317.mypinata.cloud/ipfs/bafkreigsxh2v7tcf6ggaskw3sgvet3nbajikxjqz7xt3rm4ld6ifmwy3dy" alt="USDI" class="w-8 h-8 rounded-full">Trivest USDI</div><p class="text-sm text-txt/40 max-w-sm mb-4">Stability of the Dollar in Web3.</p><a href="mailto:trivestusdi@proton.me" class="text-sm text-txt/50 hover:text-mint transition">trivestusdi@proton.me</a></div>
@@ -383,14 +382,35 @@ input[type=range].sl::-moz-range-thumb{width:26px;height:26px;border-radius:50%;
 <!-- Кнопка «Switch to BNB Smart Chain»: показывается только при неверной сети, текст следует за переключателем языка -->
 <script>
 (function(){
- var net=document.getElementById('wNet'),sw=document.getElementById('wSwitch'),tx=document.getElementById('wSwT'),lb=document.getElementById('lang');
+ var net=document.getElementById('wNet'),sw=document.getElementById('wSwitch'),tx=document.getElementById('wSwT'),lb=document.getElementById('lang'),box=document.getElementById('wmMsg');
  if(!net||!sw)return;
+ var ru=function(){return lb&&lb.textContent.trim().toLowerCase()==='ru'};
  function show(){var wrong=net.textContent.trim()==='Wrong network';sw.classList.toggle('hidden',!wrong);sw.classList.toggle('flex',wrong)}
- function lang(){tx.textContent=(lb&&lb.textContent.trim().toLowerCase()==='ru')?'Переключить на BNB Smart Chain':'Switch to BNB Smart Chain'}
+ function lang(){tx.textContent=ru()?'Переключить на BNB Smart Chain':'Switch to BNB Smart Chain'}
+ function say(t,bad){if(box){box.textContent=t;box.className='text-xs '+(bad?'text-red-400':'text-mint')+' mt-3 min-h-[1rem]'}}
  new MutationObserver(show).observe(net,{childList:true,characterData:true,subtree:true});
  if(lb)new MutationObserver(lang).observe(lb,{childList:true,characterData:true,subtree:true});
+ var wait=function(ms){return new Promise(function(r){setTimeout(r,ms)})};
  sw.onclick=async function(){
-  try{await ensureChain();await refresh()}catch(e){}
+  var W=window.TrivestWallet,p=W&&W.provider;
+  if(!p){say(ru()?'Сначала подключите кошелёк':'Connect a wallet first',1);return}
+  var cur=async function(){return parseInt(await p.request({method:'eth_chainId'}),16)};
+  try{
+   say(ru()?'Подтвердите смену сети в кошельке…':'Confirm the network switch in your wallet…');
+   try{await p.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x38'}]})}
+   catch(e){
+    if(e&&e.code===4001)throw e;
+    await p.request({method:'wallet_addEthereumChain',params:[{chainId:'0x38',chainName:'BNB Smart Chain',nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18},rpcUrls:['https://bsc-dataseed.binance.org/'],blockExplorerUrls:['https://bscscan.com']}]});
+   }
+   for(var i=0;i<8&&(await cur())!==56;i++)await wait(500);
+   if((await cur())!==56)throw new Error('manual');
+   try{await refresh()}catch(_){}
+   say(ru()?'Готово: сеть BNB Smart Chain':'Done: BNB Smart Chain selected');
+  }catch(e){
+   try{await refresh()}catch(_){}
+   if(e&&e.code===4001)say(ru()?'Отклонено в кошельке':'Rejected in wallet',1);
+   else say(ru()?'Автоматически не получилось. В Trust Wallet нажмите на значок сети в панели браузера и выберите «BNB Smart Chain» (Smart Chain), затем вернитесь на сайт.':'Automatic switch failed. In Trust Wallet tap the network icon in the browser bar and choose “BNB Smart Chain” (Smart Chain), then come back.',1);
+  }
  };
  lang();show();
 })();
